@@ -18,7 +18,7 @@ ENV LINUX_JAR_FILE=${JAR_FILE}
 
 ENV DB_URL=${JAR_FILE}
 
-COPY --from=build ./app/target/Drawer-0.0.1-SNAPSHOT.jar /app
+COPY --from=build ./app/target/demo-0.0.1-SNAPSHOT.jar /app
 
 EXPOSE 8081
 
