@@ -1,0 +1,9 @@
+type Query {
+    getUserByUsername(username: String!): User
+}
+
+type User @key(fields: "id") {
+    id: ID!
+    username: String!
+    fullName: String!
+}
