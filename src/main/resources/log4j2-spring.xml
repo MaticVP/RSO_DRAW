@@ -22,7 +22,7 @@
             </Policies>
         </RollingFile>
         <Socket name="socket" host="d031e9db-c079-4bbb-8743-a637e3246817-ls.logit.io" port="14838" protocol="ssl">
-            <PatternLayout pattern="{&quot;log_timestamp&quot;:&quot;%d&quot; ,&quot;log_thread&quot;:&quot;[%t]&quot;, api_name:Draw, api_version: 0.0.0.1 , &quot;log_level&quot;:&quot;%-5p&quot; , &quot;message&quot;:&quot;%m&quot;}%n" />
+            <PatternLayout pattern="{&quot;timestamp&quot;:&quot;%d{ISO8601}&quot;,&quot;thread&quot;:&quot;%t&quot;,&quot;level&quot;:&quot;%-5p&quot;,&quot;logger&quot;:&quot;%c{1}&quot;,&quot;apiName&quot;:&quot;Draw API&quot;,&quot;message&quot;:&quot;%msg&quot;}%n"/>
         </Socket>
     </Appenders>
 

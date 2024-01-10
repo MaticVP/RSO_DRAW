@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.ThreadContext;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.slf4j.Logger;

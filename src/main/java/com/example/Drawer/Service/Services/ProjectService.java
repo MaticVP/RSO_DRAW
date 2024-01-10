@@ -45,8 +45,8 @@ public class ProjectService {
     @Autowired
     public ProjectService(WebClient.Builder webClientBuilder, WebClient.Builder graphQLWebClient) {
         this.webClient = webClientBuilder.baseUrl("http://20.84.17.217/").build();
-        this.graphQLWebClient = graphQLWebClient.baseUrl("http://20.84.17.217/api/users/graphql").build();
-        //this.graphQLWebClient = graphQLWebClient.baseUrl("http://localhost:8082/api/users/graphql").build();
+        //this.graphQLWebClient = graphQLWebClient.baseUrl("http://20.84.17.217/api/users/graphql").build();
+        this.graphQLWebClient = graphQLWebClient.baseUrl("http://localhost:8082/api/users/graphql").build();
         WebClient client = WebClient.builder()
                 .baseUrl("https://countries.trevorblades.com")
                 .build();
@@ -95,7 +95,7 @@ public class ProjectService {
                 "}";
 
 
-        HttpGraphQlClient graphQlClient = HttpGraphQlClient.builder(this.graphQLWebClient).build();
+        HttpGraphQlClient graphQlClient = HttpGraphQlClient.builder(this.graphQLWebClient).header("X-Request-From","User API").build();
 
         GraphQlClient.RetrieveSpec projectMono = graphQlClient.document(graphqlQuery).retrieve("getUserByUsername");
 
