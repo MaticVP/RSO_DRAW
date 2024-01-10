@@ -20,9 +20,11 @@ import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -199,6 +201,7 @@ public class ProjectController {
     @Operation(summary = "Deletes all projects")
     @ApiResponse(responseCode = "200", description = "Successful removed all projects", content = @Content(schema = @Schema(implementation = AbstractReadWriteAccess.Item.class)))
     @DeleteMapping(path="/deleteAll")
+    @CrossOrigin(origins = "http://localhost:3000")
     public String deleteAllProject() {
         logger.info("Entering (deleteAllProject)");
         logger.info("Deleting projects");
@@ -211,17 +214,32 @@ public class ProjectController {
     @Operation(summary = "Deletes single project")
     @ApiResponse(responseCode = "200", description = "Successful removed project", content = @Content(schema = @Schema(implementation = AbstractReadWriteAccess.Item.class)))
     @DeleteMapping(path="/delete")
-    public String deleteAllProject(String project_name) {
-        logger.info("Entering (deleteSingleProject)");
-        projectRepository.removeByProjectName(project_name);
-        logger.info("Exiting (deleteSingleProject)");
-        return "Deleted deleted user "+project_name;
+    @CrossOrigin(origins = "http://localhost:3000")
+    @Transactional
+
+    public ResponseEntity<?> deleteAllProject(@RequestParam String project_name, @RequestParam String username) {
+        try {
+            logger.info("Entering (deleteSingleProject)");
+            long id = Long.parseLong(projectService.getIDFromUserWithGrapQL(username));
+            Project[] projects = projectRepository.findByUserId(id);
+            for (int i=0;i<projects.length;i++){
+                if(projects[0].getImage_name().equals(project_name)) {
+                    projectRepository.removeByProjectName(projects[0].getImage_name());
+                }
+            }
+            logger.info("Exiting (deleteSingleProject)");
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
 
     }
 
     @Operation(summary = "Returns all projects")
     @ApiResponse(responseCode = "200", description = "Successful returned projects", content = @Content(schema = @Schema(implementation = AbstractReadWriteAccess.Item.class)))
     @GetMapping(path="/all")
+    @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody Iterable<Project> getAllProject() {
         logger.info("Entering (getAllProject)");
         logger.info("Getting all projects");
