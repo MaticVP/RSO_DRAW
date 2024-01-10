@@ -23,3 +23,4 @@ COPY --from=build ./app/target/demo-0.0.1-SNAPSHOT.jar /app
 EXPOSE 8082
 
 ENTRYPOINT ["java", "-Dspring.datasource.url=${DBURI}","-Dspring.datasource.username=${DBUSERNAME}", "-Dspring.datasource.password=${PASSWORD}","-Dspring.config.import=${CONFIGIP}","-jar", "demo-0.0.1-SNAPSHOT.jar"]
+
