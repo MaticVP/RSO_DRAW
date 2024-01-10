@@ -45,8 +45,8 @@ public class ProjectService {
     @Autowired
     public ProjectService(WebClient.Builder webClientBuilder, WebClient.Builder graphQLWebClient) {
         this.webClient = webClientBuilder.baseUrl("http://20.84.17.217/").build();
-        //this.graphQLWebClient = graphQLWebClient.baseUrl("http://20.84.17.217/api/users/graphql").build();
-        this.graphQLWebClient = graphQLWebClient.baseUrl("http://localhost:8082/api/users/graphql").build();
+        this.graphQLWebClient = graphQLWebClient.baseUrl("http://20.84.17.217/api/users/graphql").build();
+        //this.graphQLWebClient = graphQLWebClient.baseUrl("http://localhost:8082/api/users/graphql").build();
         WebClient client = WebClient.builder()
                 .baseUrl("https://countries.trevorblades.com")
                 .build();
