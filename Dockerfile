@@ -4,7 +4,7 @@ COPY ./ /app
 
 WORKDIR /app
 
-RUN mvn --show-version --update-snapshots --batch-mode clean package
+RUN mvn -DskipTests=true test --show-version --update-snapshots --batch-mode clean package
 
 FROM eclipse-temurin:17-jre-ubi9-minimal
 
@@ -16,10 +16,10 @@ ARG JAR_FILE
 
 ENV LINUX_JAR_FILE=${JAR_FILE}
 
-ENV DB_URL=${JAR_FILE}
+ENV DB_URL=${SPRING_CONFIG_URI}
 
-COPY --from=build ./app/target/Drawer-0.0.1-SNAPSHOT.jar /app
+COPY --from=build ./app/target/demo-0.0.1-SNAPSHOT.jar /app
 
-EXPOSE 8081
+EXPOSE 8082
 
-ENTRYPOINT ["java","-jar", "demo-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-Dspring.datasource.url=${DBURI}","-Dspring.datasource.username=${DBUSERNAME}", "-Dspring.datasource.password=${PASSWORD}","-Dspring.config.import=${CONFIGIP}","-jar", "demo-0.0.1-SNAPSHOT.jar"]
