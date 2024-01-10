@@ -223,9 +223,10 @@ public class ProjectController {
             logger.info("Entering (deleteSingleProject)");
             long id = Long.parseLong(projectService.getIDFromUserWithGrapQL(username));
             Project[] projects = projectRepository.findByUserId(id);
-            for (int i=0;i<projects.length;i++){
-                if(projects[0].getImage_name().equals(project_name)) {
-                    projectRepository.removeByProjectName(projects[0].getImage_name());
+            for (Project project : projects) {
+                if (project.getImage_name().equals(project_name)) {
+                    logger.info("Found project begin delete");
+                    projectRepository.removeByProjectName(project.getImage_name());
                 }
             }
             logger.info("Exiting (deleteSingleProject)");
